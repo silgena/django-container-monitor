@@ -1,0 +1,18 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  <li>
+    <form method="post" action="{% url 'admin:container_monitor_check_now' %}" style="display:inline">
+      {% csrf_token %}<a href="#" class="addlink" onclick="this.closest('form').requestSubmit(); return false;">Check now</a>
+    </form>
+  </li>
+  {{ block.super }}
+{% endblock %}
+
+{% block content_title %}
+  {{ block.super }}
+  {% if latest %}
+    <p>Latest: <a href="{% url 'admin:container_monitor_check_change' latest.pk %}"><b>{{ latest.get_status_display }}</b></a>
+      at {{ latest.checked_at }}{% if latest.reasons %} &mdash; {{ latest.reasons|join:"; " }}{% endif %}</p>
+  {% endif %}
+{% endblock %}

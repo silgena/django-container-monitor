@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a>
+  &rsaquo; <a href="{% url 'admin:container_monitor_check_changelist' %}">Checks</a>
+  &rsaquo; Logs: {{ container }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <form method="get" style="margin-bottom:10px">
+    Last <input type="number" name="lines" value="{{ lines }}" min="10" max="5000" style="width:6em"> lines
+    <input type="submit" value="Refresh">
+  </form>
+  {% if error %}<p class="errornote">Could not read the logs: {{ error }}</p>{% endif %}
+  <pre style="margin:0;padding:10px;max-height:75vh;overflow:auto;white-space:pre-wrap;word-break:break-word">{{ output|default:"(no output)" }}</pre>
+</div>
+{% endblock %}
